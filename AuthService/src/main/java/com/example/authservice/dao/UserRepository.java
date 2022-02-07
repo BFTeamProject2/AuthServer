@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
-@Query(value="select * from User ",nativeQuery=true)
+@Query(value="select * from User",nativeQuery=true)
 public List<User> getAllUser();
 }
