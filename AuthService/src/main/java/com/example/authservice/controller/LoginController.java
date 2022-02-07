@@ -15,6 +15,7 @@ import java.util.List;
 public class LoginController {
     @Autowired
     UserService userService;
+
 //    @Autowired
 //    public LoginController(UserService userService) {
 //        this.userService = userService;
@@ -26,9 +27,5 @@ public class LoginController {
 
             List<User> res = userService.getAllUser();
             return new ResponseEntity<>(res, HttpStatus.OK);
-
-
-
-
     }
 }

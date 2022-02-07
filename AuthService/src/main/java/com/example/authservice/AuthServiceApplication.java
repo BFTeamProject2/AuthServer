@@ -7,10 +7,11 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@EntityScan(basePackages = "com.example.authservice.entity")
-@EnableJpaRepositories(basePackages="com.example.authservice.dao")
-@ComponentScan(basePackages = {"com.example.authservice.service"})
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+// @EntityScan(basePackages = "com.example.authservice.entity")
+// @EnableJpaRepositories(basePackages="com.example.authservice.dao")
+// @ComponentScan(basePackages = {"com.example.authservice.service"})
+// @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+@SpringBootApplication
 public class AuthServiceApplication {
 
     public static void main(String[] args) {
