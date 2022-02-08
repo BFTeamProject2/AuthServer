@@ -28,5 +28,11 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    public User checkLogIn(UserDomain userDomain) {
+        User user = userRepository.checkLogin(userDomain.getName(),userDomain.getPsw());
+        return user;
+    }
+
 
 }
