@@ -45,4 +45,9 @@ public class LoginController {
         }
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid username or password");
     }
+    @GetMapping("/logout")
+    public ResponseEntity<String> logout(HttpServletResponse res) {
+        CookieUtil.clear(res, JwtConstant.JWT_COOKIE_NAME, "localhost");
+        return ResponseEntity.ok().build();
+    }
 }
