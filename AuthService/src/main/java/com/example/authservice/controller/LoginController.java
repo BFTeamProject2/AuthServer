@@ -8,11 +8,10 @@ import com.example.authservice.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import com.example.authservice.service.UserService;
+import org.springframework.web.servlet.ModelAndView;
 
 
 import javax.servlet.http.HttpServletResponse;
@@ -31,20 +30,35 @@ public class LoginController {
             return ResponseEntity.ok().body(res);
     }
 
+//    @PostMapping("/login")
+//    public ResponseEntity<String> login(HttpServletResponse res, @RequestBody UserDomain userDomain) {
+//        System.out.println("in log in");
+//        if (userDomain != null && userDomain.getName() != null && userDomain.getPsw() != null) {
+//            User user = userService.checkLogIn(userDomain);
+//            if (user != null ) {
+//
+//                String jwt = JwtUtil.generateToken(user.getId(), JwtConstant.JWT_VALID_DURATION, user.getId());
+//                CookieUtil.create(res, JwtConstant.JWT_COOKIE_NAME, jwt, false, -1, "localhost");
+//                return ResponseEntity.ok().build();
+//            }
+//        }
+//        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid username or password");
+//    }
+
     @PostMapping("/login")
-    public ResponseEntity<String> login(HttpServletResponse res, @RequestBody UserDomain userDomain) {
-        System.out.println("in log in");
+        public ModelAndView login(@RequestParam("redirect") String redirect, HttpServletResponse res,
+                                  @ModelAttribute("UserDomain") UserDomain userDomain, Model model){
+
         if (userDomain != null && userDomain.getName() != null && userDomain.getPsw() != null) {
             User user = userService.checkLogIn(userDomain);
             if (user != null ) {
 
-                String jwt = JwtUtil.generateToken(user.getId(), JwtConstant.JWT_VALID_DURATION, user.getId());
-                CookieUtil.create(res, JwtConstant.JWT_COOKIE_NAME, jwt, false, -1, "localhost");
-                return ResponseEntity.ok().build();
+                String token = JwtUtil.generateToken(user.getId(), JwtConstant.JWT_VALID_DURATION, user.getId());
+                return new ModelAndView("redirect:" + redirect + "?token=" + token);
             }
         }
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid username or password");
-    }
+      return new ModelAndView("errorPage");
+        }
     @GetMapping("/logout")
     public ResponseEntity<String> logout(HttpServletResponse res) {
         CookieUtil.clear(res, JwtConstant.JWT_COOKIE_NAME, "localhost");
